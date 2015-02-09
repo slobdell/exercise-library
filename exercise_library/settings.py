@@ -91,25 +91,6 @@ else:
     }
 '''
 
-if os.getenv("I_AM_IN_DEV_ENV"):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.environ["DATABASE_NAME"],
-            'USER': os.environ["DATABASE_USER"],
-            'PASSWORD': os.environ["DATABASE_PASSWORD"],
-            'HOST': os.environ["DATABASE_HOST"],
-            'PORT': '5432',
-        }
-    }
-
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
@@ -120,7 +101,7 @@ STATIC_ROOT = 'staticfiles'
 
 AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
 AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
-AWS_STORAGE_BUCKET_NAME = "workout-generator-static"
+AWS_STORAGE_BUCKET_NAME = "exercise-library-static"
 
 if os.environ.get("I_AM_IN_DEV_ENV"):
     STATIC_URL = '/static/'
