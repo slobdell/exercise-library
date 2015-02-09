@@ -1,0 +1,13 @@
+AUTHORS.rst
+CHANGELOG.rst
+LICENSE.txt
+MANIFEST.in
+README.rst
+setup.cfg
+setup.py
+src/richenum/__init__.py
+src/richenum/enums.py
+src/richenum.egg-info/PKG-INFO
+src/richenum.egg-info/SOURCES.txt
+src/richenum.egg-info/dependency_links.txt
+src/richenum.egg-info/top_level.txt

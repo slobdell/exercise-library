@@ -1,0 +1,35 @@
+{% load staticfiles %}
+<!-- http://getbootstrap.com/examples/grid/ -->
+<body class="front no-trans">
+    <!-- scrollToTop -->
+    <!-- ================ -->
+    <div class="scrollToTop"><i class="icon-up-open-big"></i></div>
+
+    <!-- page wrapper start -->
+    <!-- ================ -->
+    <div class="page-wrapper">
+
+        <!-- header start classes:
+            fixed: fixed navigation mode (sticky menu) e.g. <header class="header fixed clearfix">
+                dark: dark header version e.g. <header class="header dark clearfix">
+        ================ -->
+        {% include "basic_navigation/header.html" %}
+
+
+        <!-- page-top start-->
+        <!-- ================ -->
+        {% include "basic_navigation/workout-gen-ad.html" %}
+        {% include "basic_navigation/content.html" %}
+
+
+        {% include "basic_navigation/banner.html" %}
+        {% include "basic_navigation/footer.html" %}
+    </div>
+    <!-- page-wrapper end -->
+
+    <!-- JavaScript files placed at the end of the document so the pages load faster
+    ================================================== -->
+    <!-- Jquery and Bootstap core js files -->
+    {% include "basic_navigation/javascript_includes.html" %}
+
+</body>

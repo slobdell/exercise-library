@@ -1,0 +1,2 @@
+python manage.py sqlclear pictures | python manage.py dbshell
+heroku pg:reset DATABASE

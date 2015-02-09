@@ -1,0 +1,11 @@
+iDea 1.1.0, 2015-01-07
+----------------------
+- Added HTML email templates
+- Added dark header version
+- Added invoice page
+- Added IE8 support
+- Updated Twitter Bootstrap Framework to 3.3.1
+- Fixed flickering issue on page load in Internet Explorer 11
+- Fixed text decoration issue of links @android touch devices
+- Fixed select with multiple attribute
+- Fixed header top dropdowns @mobile widths

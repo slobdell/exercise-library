@@ -1,0 +1,51 @@
+freman start web
+
+REBUILD ENTIRELY
+    heroku repo:rebuild -a onerepmax
+
+STANDARD
+    heroku config:set BUILDPACK_URL=https://github.com/heroku/heroku-buildpack-python
+WORKS BUT NO CELERY
+    heroku config:set BUILDPACK_URL=https://github.com/slobdell/heroku-buildpack-python-opencv-scipy
+heroku config:set BUILDPACK_URL=https://github.com/hdachev/heroku-buildpack-opencv
+Latest try:
+https://github.com/ActivKonnect/heroku-buildpack-python-opencv
+heroku config:set BUILDPACK_UR=https://github.com/mutexkid/heroku-buildpack-python-opencv
+
+https://devcenter.heroku.com/articles/getting-started-with-python
+
+virtualenv -p /usr/local/bin/python .virtualenv
+pip install -r requirements.txt --allow-all-external
+
+
+heroku run python manage.py syncdb
+
+to manage scheduled job runs:
+    heroku addons:open scheduler
+
+For RabbitMQ:
+    Use `heroku addons:docs cloudamqp` to view documentation.
+
+
+To update static files:
+    heroku run python manage.py collectstatic --noinput
+
+To run rabbitMQ locally:
+    rabbitmq-server
+
+used https://github.com/heroku/heroku-repo to rebuild completely
+
+http://celery.readthedocs.org/en/3.0/getting-started/introduction.html
+CELERY
+    START A WORKER
+        celery -A tasks worker --loglevel=info
+        celery -A one_rep_max worker -l info
+        celeryd -l info
+
+python -m one_rep_max.test
+
+python -m one_rep_max.scripts.restart_failed_orders
+
+reset heroku database
+heroku pg:reset HEROKU_POSTGRESQL_MAUVE_URL
+python manage.py sqlclear user | python manage.py dbshell
