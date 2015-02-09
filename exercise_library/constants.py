@@ -187,45 +187,58 @@ class Exercise(object):
 
 class MuscleGroup(object):
     # id, muscle_group_name, related
+
+    ABS = "Abdominal Region"
+    ARMS = "Arms"
+    BACK = "Back"
+    CHEST = "Chest"
+    LEGS = "Legs"
+    LOWER_BODY = "Lower Body"
+    MIDSECTION = "Mid Section"
+    NECK = "Neck"
+    SHOULDERS = "Shoulders"
+    TOTAL_BODY = "Total Body"
+    UPPER_BODY = "Upper Body"
+
     VALUES = (
-        (1, "Upper Back", 29),
-        (2, "Lats", 1),
-        (3, "Lower Back", 2),
-        (29, "Traps", 3),
+        (1, "Upper Back", 29, (BACK, UPPER_BODY)),
+        (2, "Lats", 1, (BACK, UPPER_BODY)),
+        (3, "Lower Back", 2, (BACK, UPPER_BODY)),
+        (29, "Traps", 3, (BACK, UPPER_BODY)),
 
-        (4, "Front Neck", 6),
-        (5, "Rear Neck", 4),
-        (6, "SCM", 5),
+        (4, "Front Neck", 6, (NECK, UPPER_BODY)),
+        (5, "Rear Neck", 4, (NECK, UPPER_BODY)),
+        (6, "SCM", 5, (NECK, UPPER_BODY)),
 
-        (7, "Upper Abs", 28),
-        (8, "Center Abs", 7),
-        (9, "Transverse Abs", 8),
-        (10, "Obliques", 9),
-        (28, "Lower Abs", 10),
+        (7, "Upper Abs", 28, (ABS, MIDSECTION)),
+        (8, "Center Abs", 7, (ABS, MIDSECTION)),
+        (9, "Transverse Abs", 8, (ABS, MIDSECTION)),
+        (10, "Obliques", 9, (ABS, MIDSECTION)),
+        (28, "Lower Abs", 10, (ABS, MIDSECTION)),
 
-        (11, "Front Deltoids", 13),
-        (12, "Medial Deltoids", 11),
-        (13, "Rear Deltoids", 12),
+        (11, "Front Deltoids", 13, (SHOULDERS, UPPER_BODY)),
+        (12, "Medial Deltoids", 11, (SHOULDERS, UPPER_BODY)),
+        (13, "Rear Deltoids", 12, (SHOULDERS, UPPER_BODY)),
 
-        (14, "Biceps", 16),
-        (15, "Triceps", 14),
-        (16, "Forearms", 15),
+        (14, "Biceps", 16, (ARMS, UPPER_BODY)),
+        (15, "Triceps", 14, (ARMS, UPPER_BODY)),
+        (16, "Forearms", 15, (ARMS, UPPER_BODY)),
 
-        (17, "Hamstring", 27),
-        (18, "Quads", 17),
-        (19, "Calves", 18),
-        (20, "Shins", 19),
-        (21, "Glutes", 20),
-        (22, "Hip Flexors", 24),
-        (27, "Triple Extension", 21),
+        (17, "Hamstring", 27, (LEGS, LOWER_BODY)),
+        (18, "Quads", 17, (LEGS, LOWER_BODY)),
+        (19, "Calves", 18, (LEGS, LOWER_BODY)),
+        (20, "Shins", 19, (LEGS, LOWER_BODY)),
+        (21, "Glutes", 20, (LEGS, LOWER_BODY)),
+        (22, "Hip Flexors", 24, (LEGS, LOWER_BODY)),
+        (27, "Triple Extension", 21, (LEGS, LOWER_BODY)),
 
-        (23, "Abductors", 22),
-        (24, "Adductors", 23),
+        (23, "Abductors", 22, (ABS, MIDSECTION)),
+        (24, "Adductors", 23, (ABS, MIDSECTION)),
 
-        (25, "Upper Chest", 26),
-        (26, "Lower Chest", 25),
+        (25, "Upper Chest", 26, (CHEST, UPPER_BODY)),
+        (26, "Lower Chest", 25, (CHEST, UPPER_BODY)),
 
-        (30, "Total Body", 30),
+        (30, "Total Body", 30, (TOTAL_BODY, TOTAL_BODY)),
     )
 
     MAP = {t[0]: t[1] for t in VALUES}
@@ -233,6 +246,17 @@ class MuscleGroup(object):
     @classmethod
     def get_name_for_id(cls, id):
         return cls.MAP[id]
+
+    @classmethod
+    def get_muscle_ids_as_tree(cls):
+        muscle_tree = defaultdict(dict)
+        for tuple_obj in cls.VALUES:
+            tree_structure = tuple_obj[3]
+            low_level, high_level = tree_structure
+            current_list = muscle_tree[high_level].get(low_level, [])
+            current_list.append(tuple_obj[0])
+            muscle_tree[high_level][low_level] = current_list
+        return dict(muscle_tree)
 
     ALLOWABLE_RELATED_FOR_SUPERSETS = {
         # certain leg muscle can superset to triple extension
@@ -297,7 +321,7 @@ class MuscleGroup(object):
 
                 tuple_buffer.append(muscle_tuple)
                 accounted_for_muscle_tuples.add(muscle_tuple)
-                related_id = muscle_tuple[-1]
+                related_id = muscle_tuple[2]
                 muscle_tuple = id_to_muscle_tuple[related_id]
 
         rings = []

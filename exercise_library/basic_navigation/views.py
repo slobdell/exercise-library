@@ -30,6 +30,16 @@ def _get_grouped_exercises():
     return muscle_name_to_exercises
 
 
+def global_render_to_response(template, render_data):
+    muscle_tree = MuscleGroup.get_muscle_ids_as_tree()
+    for top_level_muscle, muscle_dict in muscle_tree.items():
+        for low_level_muscle, muscle_id_list in muscle_dict.items():
+            for index in xrange(len(muscle_id_list)):
+                muscle_id_list[index] = MuscleGroup.get_name_for_id(muscle_id_list[index])
+    render_data["muscle_tree"] = muscle_tree
+    return render_to_response(template, render_data)
+
+
 def exercise(request, exercise_name):
     exercise = Exercise.get_by_canonical_name(exercise_name)
     render_data = {
@@ -38,7 +48,7 @@ def exercise(request, exercise_name):
         'exercise_types': [ExerciseType.get_name_for_id(exercise_type_id) for exercise_type_id in exercise.exercise_type_ids],
         "primary_muscle_group": MuscleGroup.get_name_for_id(exercise.muscle_group_id)
     }
-    return render_to_response("basic_navigation/exercise.html", render_data)
+    return global_render_to_response("basic_navigation/exercise.html", render_data)
 
 
 def home(request):
@@ -54,4 +64,4 @@ def home(request):
         "grouped_exercises": _get_grouped_exercises(),
         "JSContext": json.dumps(JSContext)
     }
-    return render_to_response("basic_navigation/search_engine_content.html", render_data)
+    return global_render_to_response("basic_navigation/search_engine_content.html", render_data)
