@@ -6,6 +6,31 @@
 <!--[if !IE]><!-->
 <html lang="en">
 <!--<![endif]-->
+    <head>
+    <title>
+    {% block title %}
+    Home
+    {% endblock %}
+    | Exercise Library
+    </title>
     {% include "basic_navigation/head.html" %}
-    {% include "basic_navigation/body.html" %}
+    </head>
+    {% load staticfiles %}
+    <!-- http://getbootstrap.com/examples/grid/ -->
+    <body class="front no-trans">
+        <div class="scrollToTop"><i class="icon-up-open-big"></i></div>
+
+        <div class="page-wrapper">
+            {% include "basic_navigation/header.html" %}
+            {% include "basic_navigation/workout-gen-ad.html" %}
+            {% block content %}
+                {% include "basic_navigation/content.html" %}
+            {% endblock %}
+
+            {% include "basic_navigation/banner.html" %}
+            {% include "basic_navigation/footer.html" %}
+        </div>
+        {% include "basic_navigation/javascript_includes.html" %}
+
+    </body>
 </html>

@@ -1,0 +1,49 @@
+{% extends "basic_navigation/index.html" %}
+{% load staticfiles %}
+
+{% block title %}
+{{ exercise.name }}
+{% endblock %}
+
+{% block content %}
+<div class="section gray-bg text-muted footer-top clearfix">
+    <div class="container">
+        <div class="row">
+            <center>
+                <h1>{{ exercise.name }}</h1>
+            </center>
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="box-style-2 white-bg object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="200" style="padding: 10px;">
+                    <div class="row">
+                        <div class="col-md-8">
+                        <video id="video_exercise_{{ exercise.id }}" muted autoplay="" loop="" poster="true" style="width: 100%;">
+                            <source src="https://s3-us-west-1.amazonaws.com/workout-generator-exercises/smaller_mp4/small_{{ exercise.video_id }}.mp4" type="video/mp4" class="mp4source">
+                            <source src="https://s3-us-west-1.amazonaws.com/workout-generator-exercises/smaller_webm/small_{{ exercise.video_id }}.webmsd.webm" type="video/webm" class="webmsource">
+                        </video>
+                        </div>
+                        <div class="col-md-4">
+                            Primary Muscle Group: <strong>{{ primary_muscle_group }}</strong><br/>
+                            Required Equipment:<br/>
+                            <ul>
+                                {% for equipment_name in equipment_names %}
+                                    <li>{{ equipment_name }}</li>
+                                {% endfor %}
+                            </ul>
+                            Exercise Types:<br/>
+                            <ul>
+                                {% for exercise_type in exercise_types %}
+                                    <li>{{ exercise_type }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <p>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

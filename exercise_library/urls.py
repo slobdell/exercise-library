@@ -5,4 +5,6 @@ from .basic_navigation import views
 
 urlpatterns = patterns('',
     url(r'^$', views.home, name='home'),
+    url(r'^exercise/(?P<exercise_name>[-\w]+)/', views.exercise, name="exercise"),
+    # url(r'^confirm/(?P<confirmation_code>\w+)/', views.confirm, name='confirm'),
 )

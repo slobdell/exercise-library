@@ -22,6 +22,13 @@ class Exercise(object):
                 self.json_fields.append(key)
                 setattr(self, key, value)
 
+        @property
+        def canonical_name(self):
+            canonical_name = self.name.replace(",", "")
+            canonical_name = canonical_name.replace("(", "").replace(")", "")
+            canonical_name = canonical_name.replace(" ", "-")
+            return canonical_name.lower()
+
         def to_json(self):
             json_blob = {}
             for field in self.json_fields:
@@ -40,6 +47,8 @@ class Exercise(object):
     _exercises_by_required_equipment = defaultdict(set)
     _exercises_by_type = defaultdict(set)
     _exercises_by_phase = defaultdict(set)
+
+    _exercises_by_canonical_name = {}
     _exercises_by_id = {}
 
     _exercise_id_to_mutually_exclusive_set = {e.id: set() for e in _exercises}
@@ -50,6 +59,7 @@ class Exercise(object):
         _exercises_by_fitness_level[e.min_fitness_level_id].add(e)
         _exercises_by_experience[e.min_experience_id].add(e)
         _exercises_by_id[e.id] = e
+        _exercises_by_canonical_name[e.canonical_name] = e
 
         required_equipment_key = tuple(sorted(e.equipment_ids))
         _exercises_by_required_equipment[required_equipment_key].add(e)
@@ -70,6 +80,10 @@ class Exercise(object):
     @classmethod
     def get_by_id(cls, id):
         return cls._exercises_by_id[id]
+
+    @classmethod
+    def get_by_canonical_name(cls, canonical_name):
+        return cls._exercises_by_canonical_name[canonical_name]
 
     def __init__(self, existing_query=None):
         if existing_query is None:
@@ -213,6 +227,12 @@ class MuscleGroup(object):
 
         (30, "Total Body", 30),
     )
+
+    MAP = {t[0]: t[1] for t in VALUES}
+
+    @classmethod
+    def get_name_for_id(cls, id):
+        return cls.MAP[id]
 
     ALLOWABLE_RELATED_FOR_SUPERSETS = {
         # certain leg muscle can superset to triple extension
@@ -429,10 +449,15 @@ class ExerciseType(object):
         (3, "Stabilization"),
         (4, "Stretch"),
     )
+    MAP = {t[0]: t[1] for t in VALUES}
     STRENGTH = 1
     POWER = 2
     STABILIZATION = 3
     STRETCH = 4
+
+    @classmethod
+    def get_name_for_id(cls, id):
+        return cls.MAP[id]
 
     @classmethod
     def as_json(cls):
@@ -469,6 +494,11 @@ class Equipment(object):
     DEFAULT_IDS = (
         1, 2, 5, 10, 20, 21
     )
+    MAP = {t[0]: t[1] for t in VALUES}
+
+    @classmethod
+    def get_name_for_id(cls, id):
+        return cls.MAP[id]
 
     @classmethod
     def as_json(cls):
