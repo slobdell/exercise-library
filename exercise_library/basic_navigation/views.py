@@ -69,9 +69,9 @@ def home(request):
 
     JSContext = {
         'exercises': exercise_json,
-        'equipment': Equipment.as_json(),
-        'muscle_groups': MuscleGroup.as_json(),
-        'exercise_types': ExerciseType.as_json(),
+        'equipment': sorted(Equipment.as_json(), key=lambda d: d['title']),
+        'muscle_groups': sorted(MuscleGroup.as_json(), key=lambda d: d['title']),
+        'exercise_types': sorted(ExerciseType.as_json(), key=lambda d: d['title'])
     }
     render_data = {
         "grouped_exercises": _get_grouped_exercises(),
