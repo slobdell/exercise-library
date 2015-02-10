@@ -248,6 +248,12 @@ class MuscleGroup(object):
         return cls.MAP[id]
 
     @classmethod
+    def get_id_from_canonical(cls, canonical_name):
+        for id, name in cls.MAP.items():
+            if name.lower().replace(" ", "-") == canonical_name:
+                return id
+
+    @classmethod
     def get_muscle_ids_as_tree(cls):
         muscle_tree = defaultdict(dict)
         for tuple_obj in cls.VALUES:

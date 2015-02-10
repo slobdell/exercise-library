@@ -18,6 +18,7 @@
     {% load staticfiles %}
     <!-- http://getbootstrap.com/examples/grid/ -->
     <body class="front no-trans">
+        {% include "underscore_templates/main.html" %}
         <div class="scrollToTop"><i class="icon-up-open-big"></i></div>
 
         <div class="page-wrapper">
@@ -31,6 +32,8 @@
             {% include "basic_navigation/footer.html" %}
         </div>
         {% include "basic_navigation/javascript_includes.html" %}
+        {% block javascript %}
+        {% endblock %}
 
     </body>
 </html>

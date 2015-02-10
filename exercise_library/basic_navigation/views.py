@@ -35,9 +35,22 @@ def global_render_to_response(template, render_data):
     for top_level_muscle, muscle_dict in muscle_tree.items():
         for low_level_muscle, muscle_id_list in muscle_dict.items():
             for index in xrange(len(muscle_id_list)):
-                muscle_id_list[index] = MuscleGroup.get_name_for_id(muscle_id_list[index])
+                muscle_name = MuscleGroup.get_name_for_id(muscle_id_list[index])
+                canonical_name = muscle_name.lower().replace(" ", "-")
+                muscle_id_list[index] = (muscle_name, canonical_name)
     render_data["muscle_tree"] = muscle_tree
     return render_to_response(template, render_data)
+
+
+def muscle(request, muscle_name):
+    muscle_id = MuscleGroup.get_id_from_canonical(muscle_name)
+    muscle_name = MuscleGroup.get_name_for_id(muscle_id)
+    exercises = sorted(list(Exercise().for_muscle_group(muscle_id).query), key=lambda e: e.name)
+    render_data = {
+        "muscle_name": muscle_name,
+        "exercises": exercises,
+    }
+    return global_render_to_response("basic_navigation/muscle_group.html", render_data)
 
 
 def exercise(request, exercise_name):

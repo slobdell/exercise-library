@@ -16,7 +16,7 @@
 
                     <!-- name-and-slogan -->
                     <div class="site-slogan">
-                        Clean &amp; Powerful Bootstrap Theme
+                        An Extensive Exercise Library
                     </div>
 
                 </div>
@@ -64,10 +64,10 @@
                                                         <ul class="dropdown-menu">
                                                             {% for low_level_muscle, muscle_list in muscle_dict.items %}
                                                             <li class="dropdown">
-                                                                <a href="portfolio-3col.html" class="dropdown-toggle" data-toggle="dropdown">{{ low_level_muscle }}</a>
+                                                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">{{ low_level_muscle }}</a>
                                                                 <ul class="dropdown-menu">
                                                                     {% for individual_muscle in muscle_list %}
-                                                                        <li><a href="portfolio-3col.html">{{ individual_muscle }}</a></li>
+                                                                        <li><a href="/muscle/{{ individual_muscle.1 }}/">{{ individual_muscle.0 }}</a></li>
                                                                     {% endfor %}
                                                                 </ul>
                                                             </li>
@@ -78,12 +78,8 @@
 
                                             </ul>
                                         </li>
-                                        <li class="dropdown ">
-                                            <a href="index.html" class="dropdown-toggle" data-toggle="dropdown">Home</a>
-                                            <ul class="dropdown-menu">
-                                                <li class="active"><a href="index.html">Home - Default</a></li>
-                                                <li><a href="index-no-slideshow.html">Home - Without Slider</a></li>
-                                            </ul>
+                                        <li>
+                                            <a href="/">Home</a>
                                         </li>
 
                                     </ul>
