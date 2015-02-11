@@ -17,3 +17,12 @@ File Description: Place here your custom CSS styles
 .cursor-pointer{
     cursor: pointer;
 }
+
+.individual-exercise{
+    padding: 4px;
+}
+
+.individual-exercise.selected {
+    background-color: #000;
+    color: #fff;
+}

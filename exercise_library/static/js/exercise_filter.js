@@ -18,13 +18,80 @@ var Filter = Backbone.Model.extend({
     }
 });
 
+var ExerciseView = Backbone.View.extend({
+    initialize: function(){
+        this.template = _.template($("#exercise-view").html());
+        this.exerciseModel = null;
+    },
+    setExercise: function(exerciseModel){
+        this.exerciseModel = exerciseModel;
+        this.render();
+    },
+    render: function(){
+        if(!this.exerciseModel){
+            return this;
+        }
+        var renderData = {
+            "exercise": this.exerciseModel.toJSON()
+        }
+        var self = this;
+        $(".exercise-placeholder").fadeOut({
+            complete: function(){
+                self.$el.html(self.template(renderData));
+                $(".exercise-placeholder").fadeIn();
+            }
+        });
+        return this;
+    }
+});
+
 var ExerciseListView = Backbone.View.extend({
+    events: {
+        "click .individual-exercise": "clickExercise"
+    },
     initialize: function(filter, collection){
         this.template = _.template($("#exercise-list-view").html());
         this.filter = filter;
         this.collection = collection;
         this.filteredCollection = collection;
-        this.listenTo(this.filter, "change", this.render);
+        this.listenTo(this.filter, "change", this.rerender);
+        this.exerciseView = new ExerciseView();
+        this.selectedExerciseId = null;
+    },
+    rerender: function(){
+        this.render();
+
+        var exerciseStillExists = false;
+        for(var i=0; i<this.filteredCollection.length; i++){
+            var model = this.filteredCollection[i];
+            if(model.get("id") === this.selectedExerciseId){
+                exerciseStillExists = true;
+            }
+        }
+        if(exerciseStillExists){
+            this.$("#exercise_" + this.selectedExerciseId).addClass("selected");
+        } else {
+            this.clickFirstExercise();
+        }
+    },
+    clickFirstExercise: function(){
+        this.$(".individual-exercise").first().click();
+    },
+    clickExercise: function(evt){
+        this.$(".individual-exercise").removeClass("selected");
+        var elId = evt.target.id;
+        this.$("#" + elId).addClass("selected");
+        var exerciseId = parseInt(elId.split("_")[1], 10);
+        var self = this;
+
+        for(var i=0; i<this.filteredCollection.length; i++){
+            var model = this.filteredCollection[i];
+            if (model.get("id") === exerciseId){
+                self.exerciseView.setExercise(model);
+                self.selectedExerciseId = exerciseId;
+                return;
+            }
+        }
     },
     _getFilteredCollection: function(){
 
@@ -51,21 +118,24 @@ var ExerciseListView = Backbone.View.extend({
             var exerciseTypeStr = this.filter.get("exerciseTypes")[i];
             exerciseTypes.push(parseInt(exerciseTypeStr, 10));
         }
+
         filteredCollection = filteredCollection.filter(function(model){
             var exerciseTypeIds = model.get("exercise_type_ids");
+
             for(var i=0; i<exerciseTypeIds.length; i++){
                 var exerciseTypeId = exerciseTypeIds[i];
-                if(_.indexOf(exerciseTypes, exerciseTypeId) === -1){
-                    return false;
+                if(_.indexOf(exerciseTypes, exerciseTypeId) !== -1){
+                    return true;
                 }
             }
-            return true;
+            return false;
         });
+
         return filteredCollection;
     },
     render: function(){
-        // var renderData = this.filteredCollection.toJSON();
-        var exerciseList = this._getFilteredCollection();
+        this.filteredCollection = this._getFilteredCollection();
+        var exerciseList = this.filteredCollection;
         var jsonExerciseList = [];
 
         var selectedMuscleName = "";
@@ -88,8 +158,9 @@ var ExerciseListView = Backbone.View.extend({
             "selectedMuscleName": selectedMuscleName,
             "exercises": jsonExerciseList
         };
-        console.log(renderData);
         this.$el.html(this.template(renderData));
+
+        this.$(".exercise-placeholder").html(this.exerciseView.render().el);
         return this;
     }
 });
