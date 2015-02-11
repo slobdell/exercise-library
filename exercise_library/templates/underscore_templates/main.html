@@ -49,7 +49,7 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div class="tab-pane fade in active" id="tab1">
-            <h1 class="text-center title">Very Flexible</h1>
+            <div class="tab-inner-content">
             <div class="space"></div>
             <div class="row">
                 <div class="col-md-6">
@@ -70,7 +70,23 @@
                 </div>
             </div>
         </div>
+        </div>
     </div>
 </div>
 <!-- tabs end -->
+</script>
+<script type="text/html" id="exercise-list-view">
+<h1 class="text-center title"><%= selectedMuscleName %></h1>
+<div class="space"></div>
+<div class="row">
+    <div class="col-md-12">
+        <% for (var i=0; i<exercises.length; i++) { %>
+            <div class="col-md-4" style="margin-top: 10px;">
+                <% var exercise = exercises[i]; %>
+                <%= exercise.name %>
+            </div>
+        <% } %>
+    </div>
+</div>
+
 </script>

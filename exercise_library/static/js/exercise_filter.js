@@ -10,7 +10,7 @@ var Filter = Backbone.Model.extend({
         var attrs = [{
             'equipmentIds': [],
             'muscleGroupId': 1,
-            'fitnessLebel': 1,
+            'fitnessLevel': 1,
             'experience': 1,
             'exerciseTypes': []
         }];
@@ -20,13 +20,11 @@ var Filter = Backbone.Model.extend({
 
 var ExerciseListView = Backbone.View.extend({
     initialize: function(filter, collection){
+        this.template = _.template($("#exercise-list-view").html());
         this.filter = filter;
         this.collection = collection;
-        this.listenTo(this.filter, "change", this.something);
-    },
-    something: function(){
-        var filteredCollection = this._getFilteredCollection();
-        this.render();
+        this.filteredCollection = collection;
+        this.listenTo(this.filter, "change", this.render);
     },
     _getFilteredCollection: function(){
 
@@ -66,6 +64,33 @@ var ExerciseListView = Backbone.View.extend({
         return filteredCollection;
     },
     render: function(){
+        // var renderData = this.filteredCollection.toJSON();
+        var exerciseList = this._getFilteredCollection();
+        var jsonExerciseList = [];
+
+        var selectedMuscleName = "";
+        var muscleId = this.filter.get("muscleGroupId");
+        for(var i=0; i<JSContext.muscle_groups.length; i++){
+            var muscleGroup = JSContext.muscle_groups[i];
+            if (muscleGroup.id === muscleId){
+                selectedMuscleName = muscleGroup.title;
+            }
+        }
+
+        for(var i=0; i<exerciseList.length; i++){
+            var model = exerciseList[i];
+            jsonExerciseList.push(model.toJSON());
+        }
+        jsonExerciseList.sort(function(a, b){
+            return ((a.name < b.name) ? -1 : ((a.name > b.name) ? 1 : 0));
+        });
+        var renderData = {
+            "selectedMuscleName": selectedMuscleName,
+            "exercises": jsonExerciseList
+        };
+        console.log(renderData);
+        this.$el.html(this.template(renderData));
+        return this;
     }
 });
 
@@ -119,6 +144,9 @@ var ExerciseFilterView = Backbone.View.extend({
             muscleGroups: this.allMuscleGroups
         };
         this.$el.html(this.template(renderData));
+
+        this.$(".tab-inner-content").html(this.exerciseListView.render().el);
+
         this.updateFilterFromView();
         return this;
     }
