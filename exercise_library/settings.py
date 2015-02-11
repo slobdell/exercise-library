@@ -32,6 +32,7 @@ if os.environ.get("I_AM_IN_DEV_ENV"):
 
 ALLOWED_HOSTS = [
     ".herokuapp.com",
+    ".exercise-library.com",
 ]
 
 INSTALLED_APPS = (
