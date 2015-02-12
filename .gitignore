@@ -1,0 +1,11 @@
+*.mp4
+*.avi
+*.mov
+*.un~
+.DS_Store
+*.pyc
+*.cpp
+.virtualenv
+staticfiles
+tmp
+*.sqlite3
