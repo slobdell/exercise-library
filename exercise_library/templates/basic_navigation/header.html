@@ -11,12 +11,12 @@
 
                     <!-- logo -->
                     <div class="logo">
-                        <a href="index.html"><img id="logo" src="{% static 'images/logo_red.png' %}" alt="iDea"></a>
+<a href="index.html"><img id="logo" style="width: 100px;" src="{% static 'images/exercise_lib_logo.png' %}" alt="iDea"></a>
                     </div>
 
                     <!-- name-and-slogan -->
                     <div class="site-slogan">
-                        An Extensive Exercise Library
+                        A Comprehensive Exercise Library
                     </div>
 
                 </div>
@@ -55,12 +55,12 @@
 
                                         <!-- SBL START -->
                                         <li class="dropdown" style="">
-                                            <a href="portfolio-3col.html" class="dropdown-toggle" data-toggle="dropdown">Find By Body Part</a>
+<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Find By Body Part</a>
                                             <ul class="dropdown-menu">
 
                                                 {% for top_level_muscle, muscle_dict in muscle_tree.items %}
                                                     <li class="dropdown" style="">
-                                                        <a href="portfolio-3col.html" class="dropdown-toggle" data-toggle="dropdown">{{ top_level_muscle }}</a>
+<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">{{ top_level_muscle }}</a>
                                                         <ul class="dropdown-menu">
                                                             {% for low_level_muscle, muscle_list in muscle_dict.items %}
                                                             <li class="dropdown">
