@@ -16,11 +16,21 @@ class Exercise(object):
 
     class _Exercise(object):
 
+        _template_dir = "%s/templates/exercise_descriptions/" % os.path.dirname(os.path.realpath(__file__))
+
         def __init__(self, dict_obj):
             self.json_fields = []
             for key, value in dict_obj.items():
                 self.json_fields.append(key)
                 setattr(self, key, value)
+            self._populate_html_description()
+
+        def _populate_html_description(self):
+            try:
+                with open("%s%s.html" % (self._template_dir, self.canonical_name), "rb") as f:
+                    self.html_description = f.read()
+            except IOError:
+                self.html_description = ""
 
         @property
         def canonical_name(self):
@@ -33,6 +43,7 @@ class Exercise(object):
             json_blob = {}
             for field in self.json_fields:
                 json_blob[field] = getattr(self, field)
+            json_blob["html_description"] = self.html_description
             return json_blob
 
         def __hash__(self):
