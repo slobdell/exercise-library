@@ -37,6 +37,7 @@ class Exercise(object):
             canonical_name = self.name.replace(",", "")
             canonical_name = canonical_name.replace("(", "").replace(")", "")
             canonical_name = canonical_name.replace(" ", "-")
+            canonical_name = canonical_name.replace("/", "-")
             return canonical_name.lower()
 
         def to_json(self):
