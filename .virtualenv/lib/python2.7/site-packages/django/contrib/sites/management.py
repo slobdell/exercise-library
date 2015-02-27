@@ -2,22 +2,16 @@
 Creates the default Site object.
 """
 
-from django.apps import apps
-from django.core.management.color import no_style
-from django.db import DEFAULT_DB_ALIAS, connections, router
 from django.db.models import signals
+from django.db import connections
+from django.db import router
+from django.contrib.sites.models import Site
+from django.contrib.sites import models as site_app
+from django.core.management.color import no_style
 
-
-def create_default_site(app_config, verbosity=2, interactive=True, db=DEFAULT_DB_ALIAS, **kwargs):
-    try:
-        Site = apps.get_model('sites', 'Site')
-    except LookupError:
-        return
-
-    if not router.allow_migrate(db, Site):
-        return
-
-    if not Site.objects.exists():
+def create_default_site(app, created_models, verbosity, db, **kwargs):
+    # Only create the default sites in databases where Django created the table
+    if Site in created_models and router.allow_syncdb(db, Site) :
         # The default settings set SITE_ID = 1, and some tests in Django's test
         # suite rely on this value. However, if database sequences are reused
         # (e.g. in the test suite after flush/syncdb), it isn't guaranteed that
@@ -33,11 +27,10 @@ def create_default_site(app_config, verbosity=2, interactive=True, db=DEFAULT_DB
         if sequence_sql:
             if verbosity >= 2:
                 print("Resetting sequence")
-            with connections[db].cursor() as cursor:
-                for command in sequence_sql:
-                    cursor.execute(command)
+            cursor = connections[db].cursor()
+            for command in sequence_sql:
+                cursor.execute(command)
 
-        Site.objects.clear_cache()
+    Site.objects.clear_cache()
 
-
-signals.post_migrate.connect(create_default_site, sender=apps.get_app_config('sites'))
+signals.post_syncdb.connect(create_default_site, sender=site_app)

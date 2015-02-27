@@ -10,7 +10,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import mongoengine
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
@@ -43,7 +42,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'exercise_library.mangotest',
     # 'exercise_library.film',
     # 'workout_generator.access_token',
 )
@@ -94,28 +92,6 @@ else:
         }
     }
 '''
-
-'''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django_mongodb_engine',
-        'NAME': 'my_database',
-    }
-}
-'''
-SESSION_ENGINE = 'mongoengine.django.sessions'
-
-_MONGODB_USER = 'exercise-library-user'
-_MONGODB_PASSWD = 'supersecurepassword'
-_MONGODB_HOST = '127.0.0.1'
-_MONGODB_NAME = 'lobbdawg_test'
-
-_MONGODB_DATABASE_HOST = \
-    'mongodb://%s:%s@%s/%s' \
-    % (_MONGODB_USER, _MONGODB_PASSWD, _MONGODB_HOST, _MONGODB_NAME)
-
-mongoengine.connect(_MONGODB_NAME, host=_MONGODB_DATABASE_HOST)
-
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'

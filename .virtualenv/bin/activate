@@ -39,7 +39,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/slobdell/projects/refilm-workout/.virtualenv"
+VIRTUAL_ENV="/Users/slobdell/projects/exercise-library/.virtualenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

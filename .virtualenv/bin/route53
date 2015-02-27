@@ -1,4 +1,4 @@
-#!/Users/slobdell/projects/refilm-workout/.virtualenv/bin/python2.7
+#!/Users/slobdell/projects/exercise-library/.virtualenv/bin/python2.7
 # Author: Chris Moyer
 #
 # route53 is similar to sdbadmin for Route53, it's a simple

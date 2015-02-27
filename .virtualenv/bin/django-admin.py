@@ -1,4 +1,4 @@
-#!/Users/slobdell/projects/refilm-workout/.virtualenv/bin/python2.7
+#!/Users/slobdell/projects/exercise-library/.virtualenv/bin/python2.7
 from django.core import management
 
 if __name__ == "__main__":

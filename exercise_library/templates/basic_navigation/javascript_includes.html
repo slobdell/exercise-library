@@ -31,3 +31,19 @@
 
 <!-- Initialization of js/plugins -->
 <script type="text/javascript" src="{% static 'js/template.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/bootstrap-typeahead.js' %}"></script>
+<script>
+$(document).ready(function(){
+    $(".typeahead").typeahead({
+        source: _.debounce(function(query, process){
+            var url = "/api/autocomplete/?q=" + query;
+            return $.get(url, function(data){
+                return process(data);
+            });
+        }, 100),
+        items: 10,
+        minLength: 1
+    });
+});
+</script>

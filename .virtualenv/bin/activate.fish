@@ -32,7 +32,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/slobdell/projects/refilm-workout/.virtualenv"
+set -gx VIRTUAL_ENV "/Users/slobdell/projects/exercise-library/.virtualenv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

@@ -1,4 +1,4 @@
-#!/Users/slobdell/projects/refilm-workout/.virtualenv/bin/python2.7
+#!/Users/slobdell/projects/exercise-library/.virtualenv/bin/python2.7
 import boto
 from boto.exception import S3ResponseError
 from boto.s3.connection import OrdinaryCallingFormat

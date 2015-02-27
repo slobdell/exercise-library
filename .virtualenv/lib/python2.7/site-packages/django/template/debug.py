@@ -30,14 +30,13 @@ class DebugLexer(Lexer):
         token.source = self.origin, source
         return token
 
-
 class DebugParser(Parser):
     def __init__(self, lexer):
         super(DebugParser, self).__init__(lexer)
         self.command_stack = []
 
     def enter_command(self, command, token):
-        self.command_stack.append((command, token.source))
+        self.command_stack.append( (command, token.source) )
 
     def exit_command(self):
         self.command_stack.pop()
@@ -72,7 +71,6 @@ class DebugParser(Parser):
     def compile_function_error(self, token, e):
         if not hasattr(e, 'django_template_source'):
             e.django_template_source = token.source
-
 
 class DebugNodeList(NodeList):
     def render_node(self, node, context):

@@ -1,4 +1,4 @@
-#!/Users/slobdell/projects/refilm-workout/.virtualenv/bin/python2.7
+#!/Users/slobdell/projects/exercise-library/.virtualenv/bin/python2.7
 # Author: Chris Moyer
 #
 # cfadmin is similar to sdbadmin for CloudFront, it's a simple

@@ -14,11 +14,13 @@ class SpellChecker(object):
             model[f] += 1
         return model
 
-    NWORDS = train(words(
-        " ".join(
-            [dict_obj["name"] for dict_obj in read_file_as_json("exercises.json")]
+    NWORDS = train(
+        words(
+            " ".join(
+                [dict_obj["name"] for dict_obj in read_file_as_json("exercise_library/exercises.json")]
+            )
         )
-    ))
+    )
 
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
@@ -47,9 +49,9 @@ class SpellChecker(object):
 
 class AutoCompleter(object):
 
-    MIN_N_GRAM_SIZE = 3
+    MIN_N_GRAM_SIZE = 1
 
-    exercise_names = [dict_obj["name"] for dict_obj in read_file_as_json("exercises.json")]
+    exercise_names = [dict_obj["name"] for dict_obj in read_file_as_json("exercise_library/exercises.json")]
     token_to_exercise_name = defaultdict(list)
     n_gram_to_tokens = defaultdict(set)
     for exercise_name in exercise_names:
@@ -109,9 +111,3 @@ class AutoCompleter(object):
         exercises__scores = collapsed_exercise_to_score.items()
         exercises__scores.sort(key=lambda t: t[1], reverse=True)
         return self._filtered_results(exercises__scores)
-
-
-spellchecker = SpellChecker()
-autocompleter = AutoCompleter()
-tokens = spellchecker.correct_phrase("squat")
-print AutoCompleter().guess_exercises(tokens)
