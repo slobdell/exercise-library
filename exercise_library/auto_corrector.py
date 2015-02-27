@@ -51,11 +51,16 @@ class AutoCompleter(object):
 
     MIN_N_GRAM_SIZE = 1
 
-    exercise_names = [dict_obj["name"] for dict_obj in read_file_as_json("exercise_library/exercises.json")]
+    exercise_name_to_dict = {}
+
+    exercises = read_file_as_json("exercise_library/exercises.json")
     token_to_exercise_name = defaultdict(list)
     n_gram_to_tokens = defaultdict(set)
-    for exercise_name in exercise_names:
+
+    for exercise in exercises:
+        exercise_name = exercise["name"]
         exercise_name = exercise_name.lower().replace("-", " ").replace("(", " ").replace(")", " ").replace("'", " ")
+        exercise_name_to_dict[exercise_name] = exercise
         tokens = exercise_name.split()
         for token in tokens:
             token_to_exercise_name[token].append(exercise_name)
@@ -64,6 +69,10 @@ class AutoCompleter(object):
             for string_size in xrange(MIN_N_GRAM_SIZE, len(token) + 1):
                 n_gram = token[:string_size]
                 n_gram_to_tokens[n_gram].add(token)
+
+    @classmethod
+    def get_exercise_dict_from_name(cls, exercise_name):
+        return cls.exercise_name_to_dict.get(exercise_name, {})
 
     def _get_real_tokens_from_possible_n_grams(self, tokens):
         real_tokens = []

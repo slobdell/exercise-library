@@ -165,6 +165,24 @@ var ExerciseListView = Backbone.View.extend({
     }
 });
 
+var SearchView = Backbone.View.extend({
+    events: {
+        "click .search-button": "search"
+    },
+    initialize: function(el){
+        this.$el = el;
+    },
+    search: function(){
+        var searchText = this.$(".search-input").val();
+        $.get("/api/exercise/?exercise=" + searchText, function(exerciseResponse){
+            var muscleId = exerciseResponse.muscle_group_id;
+            var exerciseId = exerciseResponse.id;
+            $("#muscle_" + muscleId).click();
+            $("#exercise_" + exerciseId).click();
+        });
+    }
+});
+
 var ExerciseFilterView = Backbone.View.extend({
     events: {
         "click input[type='checkbox']": "changeFilter",

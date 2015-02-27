@@ -28,3 +28,9 @@ def autocomplete(request):
         tokens = search_term_so_far.split()
     suggestions = AutoCompleter().guess_exercises(tokens)
     return render_to_json(suggestions)
+
+
+def exercise_from_name(request):
+    exercise_name = request.GET.get('exercise', '')
+    exercise_dict = AutoCompleter.get_exercise_dict_from_name(exercise_name)
+    return render_to_json(exercise_dict)

@@ -9,6 +9,10 @@
         var el = $(".replace-area");
         var exerciseView = new ExerciseFilterView(el, exerciseCollection);
         exerciseView.render();
+
+        var searchEl = $(".search-area");
+        var searchView = new SearchView(searchEl);
+        searchView.render();
     });
     </script>
 {% endblock %}
