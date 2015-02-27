@@ -60,6 +60,7 @@ class AutoCompleter(object):
     for exercise in exercises:
         exercise_name = exercise["name"]
         exercise_name = exercise_name.lower().replace("-", " ").replace("(", " ").replace(")", " ").replace("'", " ")
+        exercise_name = " ".join(exercise_name.split())
         exercise_name_to_dict[exercise_name] = exercise
         tokens = exercise_name.split()
         for token in tokens:
