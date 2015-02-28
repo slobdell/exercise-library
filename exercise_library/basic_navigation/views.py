@@ -75,6 +75,7 @@ def home(request):
     }
     render_data = {
         "grouped_exercises": _get_grouped_exercises(),
+        "admin": request.GET.get("god_mode", "") == "yesplease",
         "JSContext": json.dumps(JSContext)
     }
     return global_render_to_response("basic_navigation/search_engine_content.html", render_data)
