@@ -1,14 +1,15 @@
 # This file is distributed under the same license as the Django package.
 #
 # Translators:
+# cihad <cihadgundogdu@gmail.com>, 2014
 # Jannis Leidel <jannis@leidel.info>, 2011
 msgid ""
 msgstr ""
-"Project-Id-Version: django-core\n"
+"Project-Id-Version: django\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-02 16:18+0200\n"
-"PO-Revision-Date: 2013-04-29 08:27+0000\n"
-"Last-Translator: claudep <claude@2xlibre.net>\n"
+"POT-Creation-Date: 2014-05-19 15:12+0200\n"
+"PO-Revision-Date: 2014-06-30 08:52+0000\n"
+"Last-Translator: cihad <cihadgundogdu@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/django/language/"
 "tr/)\n"
 "MIME-Version: 1.0\n"
@@ -17,11 +18,15 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: models.py:9
+#: contrib/redirects/apps.py:8
+msgid "Redirects"
+msgstr "Yönlendirmeler"
+
+#: contrib/redirects/models.py:10
 msgid "redirect from"
 msgstr "eski adres"
 
-#: models.py:10
+#: contrib/redirects/models.py:11
 msgid ""
 "This should be an absolute path, excluding the domain name. Example: '/"
 "events/search/'."
@@ -29,11 +34,11 @@ msgstr ""
 "Buraya tam dosya yolu, alan adı kullanılmadan yazılmalı. Örnek: '/events/"
 "search/'."
 
-#: models.py:11
+#: contrib/redirects/models.py:12
 msgid "redirect to"
 msgstr "yeni adres"
 
-#: models.py:12
+#: contrib/redirects/models.py:13
 msgid ""
 "This can be either an absolute path (as above) or a full URL starting with "
 "'http://'."
@@ -41,10 +46,10 @@ msgstr ""
 "Buraya tam dosya yolu (yukarıdaki gibi), ya da 'http://' ile başlayan tam "
 "adres yazılmalı."
 
-#: models.py:15
+#: contrib/redirects/models.py:16
 msgid "redirect"
 msgstr "yönlendirme"
 
-#: models.py:16
+#: contrib/redirects/models.py:17
 msgid "redirects"
 msgstr "yönlendirmeler"

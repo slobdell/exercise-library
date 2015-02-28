@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+AWS_CLOUDSEARCH_REGION = os.environ["AWS_CLOUDSEARCH_REGION"]
+AWS_CLOUDSEARCH_INDEX = os.environ['EXERCISE_LIBRARY_CLOUDSEARCH_INDEX']
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
