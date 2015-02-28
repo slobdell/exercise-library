@@ -8,8 +8,8 @@ from collections import defaultdict
 from storages.backends.s3boto import S3BotoStorage
 
 
+from exercise_library.exercise_cacher import ExerciseCacher
 from exercise_library.utils import base_round
-from exercise_library.utils import read_file_as_json
 
 
 class Exercise(object):
@@ -50,7 +50,7 @@ class Exercise(object):
         def __hash__(self):
             return self.id
 
-    _exercises = [_Exercise(dict_obj) for dict_obj in read_file_as_json("exercise_library/exercises.json")]
+    _exercises = [_Exercise(dict_obj) for dict_obj in ExerciseCacher().exercises]
 
     _exercises_by_workout_component = defaultdict(set)
     _exercises_by_muscle_group = defaultdict(set)

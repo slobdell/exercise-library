@@ -1,11 +1,8 @@
-from abc import ABCMeta
 
 from .amazon_client import AmazonClient
 
 
-class AbstractCloudSearchSearcher(AmazonClient):
-
-    __metaclass__ = ABCMeta
+class CloudSearchSearcher(AmazonClient):
 
     DEFAULT_PARSER = "structured"
     DEFAULT_PAGE_SIZE = 500

@@ -1,6 +1,6 @@
 import re
 from collections import defaultdict
-from exercise_library.utils import read_file_as_json
+from exercise_library.exercise_cacher import ExerciseCacher
 
 
 class SpellChecker(object):
@@ -13,11 +13,11 @@ class SpellChecker(object):
         for f in features:
             model[f] += 1
         return model
-
+    exercises = ExerciseCacher().exercises
     NWORDS = train(
         words(
             " ".join(
-                [dict_obj["name"] for dict_obj in read_file_as_json("exercise_library/exercises.json")]
+                [dict_obj["name"] for dict_obj in exercises]
             )
         )
     )
@@ -53,7 +53,7 @@ class AutoCompleter(object):
 
     exercise_name_to_dict = {}
 
-    exercises = read_file_as_json("exercise_library/exercises.json")
+    exercises = ExerciseCacher().exercises
     token_to_exercise_name = defaultdict(list)
     n_gram_to_tokens = defaultdict(set)
 
