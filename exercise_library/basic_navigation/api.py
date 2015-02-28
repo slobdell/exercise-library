@@ -27,6 +27,9 @@ def autocomplete(request):
     else:
         tokens = search_term_so_far.split()
     suggestions = AutoCompleter().guess_exercises(tokens)
+    if len(suggestions) == 0:
+        tokens = spellchecker.correct_phrase(search_term_so_far)
+        suggestions = AutoCompleter().guess_exercises(tokens)
     return render_to_json(suggestions)
 
 
