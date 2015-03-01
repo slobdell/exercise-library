@@ -38,7 +38,7 @@
 $(document).ready(function(){
     $(".typeahead").typeahead({
         source: _.debounce(function(query, process){
-            var url = "/api/autocomplete/?q=" + query;
+var url = "/api/autocomplete/?q=" + query.toLowerCase();
             return $.get(url, function(data){
                 // data is the raw response from the API
                 return process(data);
