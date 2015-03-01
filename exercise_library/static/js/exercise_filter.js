@@ -174,6 +174,7 @@ var SearchView = Backbone.View.extend({
     },
     search: function(){
         var searchText = this.$(".search-input").val();
+        searchText = searchText.toLowerCase()
         $.get("/api/exercise/?exercise=" + searchText, function(exerciseResponse){
             var muscleId = exerciseResponse.muscle_group_id;
             var exerciseId = exerciseResponse.id;
