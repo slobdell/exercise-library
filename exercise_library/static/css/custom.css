@@ -26,3 +26,7 @@ File Description: Place here your custom CSS styles
     background-color: #000;
     color: #fff;
 }
+
+label {
+    cursor: pointer;
+}

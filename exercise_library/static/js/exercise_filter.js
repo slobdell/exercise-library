@@ -19,9 +19,16 @@ var Filter = Backbone.Model.extend({
 });
 
 var ExerciseView = Backbone.View.extend({
+    events: {
+        "click .admin-edit": "launchEdit"
+    },
     initialize: function(){
         this.template = _.template($("#exercise-view").html());
         this.exerciseModel = null;
+    },
+    launchEdit: function(){
+        var adminEditView = new AdminEditView(this.exerciseModel);
+        adminEditView.render();
     },
     setExercise: function(exerciseModel){
         this.exerciseModel = exerciseModel;
@@ -41,6 +48,7 @@ var ExerciseView = Backbone.View.extend({
                 $(".exercise-placeholder").fadeIn();
             }
         });
+        this.delegateEvents();
         return this;
     }
 });
