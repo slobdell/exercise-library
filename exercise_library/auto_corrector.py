@@ -3,7 +3,31 @@ from collections import defaultdict
 from exercise_library.exercise_cacher import ExerciseCacher
 
 
-class SpellChecker(object):
+class Tokenizer(object):
+    MIN_N_GRAM_SIZE = 1
+
+    exercise_name_to_dict = {}
+
+    exercises = ExerciseCacher().exercises
+    token_to_exercise_name = defaultdict(list)
+    n_gram_to_tokens = defaultdict(set)
+
+    for exercise in exercises:
+        exercise_name = exercise["name"]
+        exercise_name = exercise_name.lower().replace("-", " ").replace("(", " ").replace(")", " ").replace("'", " ")
+        exercise_name = " ".join(exercise_name.split())
+        exercise_name_to_dict[exercise_name] = exercise
+        tokens = exercise_name.split()
+        for token in tokens:
+            token_to_exercise_name[token].append(exercise_name)
+            if len(token) < MIN_N_GRAM_SIZE:
+                n_gram_to_tokens[token].add(token)
+            for string_size in xrange(MIN_N_GRAM_SIZE, len(token) + 1):
+                n_gram = token[:string_size]
+                n_gram_to_tokens[n_gram].add(token)
+
+
+class SpellChecker(Tokenizer):
 
     def words(text):
         return re.findall('[a-z]+', text.lower())
@@ -39,6 +63,8 @@ class SpellChecker(object):
         return set(w for w in words if w in self.NWORDS)
 
     def correct_token(self, token):
+        if token in self.n_gram_to_tokens:
+            return token
         candidates = self._known([token]) or self._known(self._edits1(token)) or self._known_edits2(token) or [token]
         return max(candidates, key=self.NWORDS.get)
 
@@ -47,29 +73,7 @@ class SpellChecker(object):
         return [self.correct_token(token) for token in tokens]
 
 
-class AutoCompleter(object):
-
-    MIN_N_GRAM_SIZE = 1
-
-    exercise_name_to_dict = {}
-
-    exercises = ExerciseCacher().exercises
-    token_to_exercise_name = defaultdict(list)
-    n_gram_to_tokens = defaultdict(set)
-
-    for exercise in exercises:
-        exercise_name = exercise["name"]
-        exercise_name = exercise_name.lower().replace("-", " ").replace("(", " ").replace(")", " ").replace("'", " ")
-        exercise_name = " ".join(exercise_name.split())
-        exercise_name_to_dict[exercise_name] = exercise
-        tokens = exercise_name.split()
-        for token in tokens:
-            token_to_exercise_name[token].append(exercise_name)
-            if len(token) < MIN_N_GRAM_SIZE:
-                n_gram_to_tokens[token].add(token)
-            for string_size in xrange(MIN_N_GRAM_SIZE, len(token) + 1):
-                n_gram = token[:string_size]
-                n_gram_to_tokens[n_gram].add(token)
+class AutoCompleter(Tokenizer):
 
     @classmethod
     def get_exercise_dict_from_name(cls, exercise_name):

@@ -23,15 +23,9 @@ def autocomplete(request):
     spellchecker = SpellChecker()
     search_term_so_far = request.GET.get('q', '')
 
-    tokens = search_term_so_far.split()
-    if len(tokens) == 1:
-        suggestions = AutoCompleter().guess_exercises(tokens)
-        if len(suggestions) == 0:
-            tokens = spellchecker.correct_phrase(search_term_so_far)
-            suggestions = AutoCompleter().guess_exercises(tokens)
-    else:
-        tokens = spellchecker.correct_phrase(search_term_so_far)
-        suggestions = AutoCompleter().guess_exercises(tokens)
+    tokens = spellchecker.correct_phrase(search_term_so_far)
+    suggestions = AutoCompleter().guess_exercises(tokens)
+
     return render_to_json(suggestions)
 
 
