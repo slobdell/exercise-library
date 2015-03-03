@@ -1,0 +1,254 @@
+<script type="text/html" id="admin-edit-view">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<h4 class="modal-title" id="myModalLabel"><%= exercise.name %></h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            Title
+                        </div>
+                        <div class="col-md-6">
+                            <input class="exercise-name" type="text" value="<%= exercise.name %>" style="padding: 5px; margin: 5px;"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            Video ID
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class ="video-id" value="<%= exercise.video_id %>" style="padding: 5px; margin: 5px;"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">Macro Type</div>
+
+                        <div class="col-md-6">
+                            <input type="radio" name="compound" id="compound-true" value="1"
+                            <% if(exercise.compound) { %>
+                                checked="checked"
+                            <% } %>
+                            >
+                            <label for="compound-true">
+                                Compound
+                            </label>
+
+                            <input type="radio" name="compound" id="compound-false" value="0"
+                            <% if(!exercise.compound) { %>
+                                checked="checked"
+                            <% } %>
+                            >
+                            <label for="compound-false">
+                                Isolated
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            Exercise Types
+                        </div>
+
+                        <div class="col-md-6">
+                            <% for (var i=0; i<exerciseTypes.length; i++) { %>
+                                <% var exerciseType = exerciseTypes[i]; %>
+                                <input class="exercise-type-checks" type="checkbox" id="exercise-type-<%= exerciseType.id %>"
+                                <% for (var j=0; j<exercise.exercise_type_ids.length; j++) { %>
+                                    <% if(exercise.exercise_type_ids[j] === exerciseType.id) { %>
+                                            checked="checked"
+                                    <% } %>
+                                <% } %>
+                                />
+
+                                <label for="exercise-type-<%= exerciseType.id %>">
+                                    <%= exerciseType.title%>
+                                </label>
+                                <br/>
+                            <% } %>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                        Minimum Experience
+                        </div>
+
+                        <div class="col-md-6">
+                            <select name="experience" class="experience-value">
+                                <% for(var i=1; i<=5; i++) { %>
+                                <option value="<%= i %>"
+                                    <% if(i === exercise.min_experience_id) { %>
+                                        SELECTED
+                                    <% } %>
+                                ><%= i %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                        Minimum Fitness Level
+                        </div>
+
+                        <div class="col-md-6">
+                            <select name="fitness-level" class="fitness-value">
+                                <% for(var i=1; i<=5; i++) { %>
+                                <option value="<%= i %>"
+                                    <% if(i === exercise.min_fitness_level_id) { %>
+                                        SELECTED
+                                    <% } %>
+                                ><%= i %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            One Limb:
+                        </div>
+                        <div class="col-md-6">
+                            <input type="radio" name="one-limb" id="one-limb-true" value="1"
+                            <% if(exercise.one_limb) { %>
+                                checked="checked"
+                            <% } %>
+                            >
+                            <label for="one-limb-true">
+                                One Limb
+                            </label>
+
+                            <input type="radio" name="one-limb" id="one-limb-false" value="0"
+                            <% if(!exercise.one_limb) { %>
+                                checked="checked"
+                            <% } %>
+                            >
+                            <label for="one-limb-false">
+                                Both Limbs (Normal)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            Timed:
+                        </div>
+                        <div class="col-md-6">
+                            <input type="radio" name="timed" id="timed-true" value="1"
+                            <% if(exercise.timed) { %>
+                                checked="checked"
+                            <% } %>
+                            >
+                            <label for="timed-true">
+                                Timed
+                            </label>
+
+                            <input type="radio" name="timed" id="timed-false" value="0"
+                            <% if(!exercise.timed) { %>
+                                checked="checked"
+                            <% } %>
+                            >
+                            <label for="timed-false">
+                                Reps (Normal)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            Phases
+                        </div>
+                        <div class="col-md-6">
+                            <% for(var i=0; i<phases.length; i++) { %>
+                                <input type="checkbox" id="phase-<%= phases[i].id %>"
+                                    <% for(var j=0; j<exercise.phase_ids.length; j++) { %>
+                                        <% if(exercise.phase_ids[j] === phases[i].id) { %>
+                                            CHECKED
+                                        <% } %>
+                                    <% } %>
+                                >
+                                <label for="phase-<%= phases[i].id %>">
+                                    <%= phases[i].title %>
+                                </label><br/>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            Workout Component
+                        </div>
+                        <div class="col-md-6">
+                            <select>
+                                <% for(var i=0; i<workoutComponents.length; i++) { %>
+                                    <option value="<%= workoutComponents[i].id %>"
+                                        <% if(exercise.workout_component_id === workoutComponents[i].id) { %>
+                                            SELECTED
+                                        <% } %>
+                                    ><%= workoutComponents[i].title %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            Mutually Exclusive With
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="typeahead" placeholder="type an exercise name" style="width: 90%; margin: 5px; padding: 5px;" value="<%= mutexName %>"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            Primary Muscle Group
+                        </div>
+                        <div class="col-md-8">
+                            <% for(var i=0; i<muscleGroups.length; i++) { %>
+                            <div class="col-md-6">
+                                <input type="radio" name="primary-muscle" id="muscle-<%= muscleGroups[i].id %>"
+                                <% if(exercise.muscle_group_id === muscleGroups[i].id) { %>
+                                CHECKED
+                                <% } %>
+                            />
+                            <label for="muscle-<%= muscleGroups[i].id %>">
+                                <%= muscleGroups[i].title%>
+                            </label>
+                            <br/>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 40px;">
+                        <div class="col-md-4">
+                            Secondary Muscle Groups (Don't Work Tomorrow)
+                        </div>
+                        <div class="col-md-8">
+                            <% for(var i=0; i<muscleGroups.length; i++) { %>
+                            <div class="col-md-6">
+                                <input type="checkbox" id="secondary-muscle-<%= muscleGroups[i].id %>"
+                                <% for (var j=0; j<exercise.muscle_group_ids.length; j++) { %>
+                                    <% if(exercise.muscle_group_ids[j] === muscleGroups[i].id) { %>
+                                        CHECKED
+                                    <% } %>
+                                <% } %>
+                            />
+                            <label for="secondary-muscle-<%= muscleGroups[i].id %>">
+                                <%= muscleGroups[i].title%>
+                            </label>
+                            <br/>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary save">Save changes</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</script>

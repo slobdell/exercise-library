@@ -30,3 +30,7 @@ File Description: Place here your custom CSS styles
 label {
     cursor: pointer;
 }
+
+.modal-body .row {
+    margin-top: 10px;
+}

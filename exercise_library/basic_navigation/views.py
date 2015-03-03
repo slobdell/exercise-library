@@ -12,6 +12,8 @@ from exercise_library.constants import Equipment
 from exercise_library.constants import Exercise
 from exercise_library.constants import ExerciseType
 from exercise_library.constants import MuscleGroup
+from exercise_library.constants import Phase
+from exercise_library.constants import WorkoutComponent
 
 
 def render_to_json(data, status=200):
@@ -71,6 +73,8 @@ def home(request):
         'exercises': exercise_json,
         'equipment': sorted(Equipment.as_json(), key=lambda d: d['title']),
         'muscle_groups': sorted(MuscleGroup.as_json(), key=lambda d: d['title']),
+        'phases': sorted(Phase.as_json(), key=lambda p: p['title']),
+        'workout_components': sorted(WorkoutComponent.as_json(), key=lambda w: w['title']),
         'exercise_types': sorted(ExerciseType.as_json(), key=lambda d: d['title'])
     }
     render_data = {

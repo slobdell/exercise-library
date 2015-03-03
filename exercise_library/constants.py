@@ -464,6 +464,15 @@ class WorkoutComponent(object):
             "title": self.title
         }
 
+    @classmethod
+    def as_json(cls):
+        all_json = []
+        for value_tuple in cls.VALUES:
+            all_json.append(
+                WorkoutComponent(value_tuple).to_json()
+            )
+        return all_json
+
     def get_rest(self, phase):
         if self.id == self.FLEXIBILITY:
             return 0
@@ -631,6 +640,7 @@ class Phase(object):
     def to_json(self):
         return {
             "title": self.title,
+            "id": self.id,
             "tempo": self.tempo.to_json(),
             "description": self.description
         }
@@ -642,6 +652,13 @@ class Phase(object):
     @classmethod
     def get_by_id_as_json(cls, id):
         return cls.get_by_id(id).to_json()
+
+    @classmethod
+    def as_json(cls):
+        all_json = []
+        for id in cls.MAP.keys():
+            all_json.append(cls.get_by_id_as_json(id))
+        return all_json
 
 
 class CardioType(object):

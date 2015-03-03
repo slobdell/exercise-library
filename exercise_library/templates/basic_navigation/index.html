@@ -19,6 +19,9 @@
     <!-- http://getbootstrap.com/examples/grid/ -->
     <body class="front no-trans">
         {% include "underscore_templates/main.html" %}
+        {% if admin %}
+            {% include "underscore_templates/admin.html" %}
+        {% endif %}
         <div class="scrollToTop"><i class="icon-up-open-big"></i></div>
 
         <div class="page-wrapper">
