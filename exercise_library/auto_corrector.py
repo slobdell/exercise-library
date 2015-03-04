@@ -4,47 +4,93 @@ from exercise_library.exercise_cacher import ExerciseCacher
 
 
 class Tokenizer(object):
+
     MIN_N_GRAM_SIZE = 1
+    _cls_cache = {}
 
-    exercise_name_to_dict = {}
+    @property
+    def token_to_exercise_name(self):
+        key = "token_to_exercise_name"
+        if key in self._cls_cache:
+            return self._cls_cache[key]
+        else:
+            self._build_tokens()
+        return self._cls_cache[key]
 
-    exercises = ExerciseCacher().exercises
-    token_to_exercise_name = defaultdict(list)
-    n_gram_to_tokens = defaultdict(set)
+    @property
+    def n_gram_to_tokens(self):
+        key = "n_gram_to_tokens"
+        if key in self._cls_cache:
+            return self._cls_cache[key]
+        else:
+            self._build_tokens()
+        return self._cls_cache[key]
 
-    for exercise in exercises:
-        exercise_name = exercise["name"]
-        exercise_name = exercise_name.lower().replace("-", " ").replace("(", " ").replace(")", " ").replace("'", " ")
-        exercise_name = " ".join(exercise_name.split())
-        exercise_name_to_dict[exercise_name] = exercise
-        tokens = exercise_name.split()
-        for token in tokens:
-            token_to_exercise_name[token].append(exercise_name)
-            if len(token) < MIN_N_GRAM_SIZE:
-                n_gram_to_tokens[token].add(token)
-            for string_size in xrange(MIN_N_GRAM_SIZE, len(token) + 1):
-                n_gram = token[:string_size]
-                n_gram_to_tokens[n_gram].add(token)
+    @property
+    def exercise_name_to_dict(self):
+        key = "exercise_name_to_dict"
+        if key in self._cls_cache:
+            return self._cls_cache[key]
+        else:
+            self._build_tokens()
+        return self._cls_cache[key]
+
+    @classmethod
+    def bust_cache(cls):
+        for key in cls._cls_cache.keys():
+            del cls._cls_cache[key]
+
+    def _build_tokens(self):
+        token_to_exercise_name = defaultdict(list)
+        n_gram_to_tokens = defaultdict(set)
+        exercises = ExerciseCacher().exercises
+        exercise_name_to_dict = {}
+
+        for exercise in exercises:
+            exercise_name = exercise["name"]
+            exercise_name = exercise_name.lower().replace("-", " ").replace("(", " ").replace(")", " ").replace("'", " ")
+            exercise_name = " ".join(exercise_name.split())
+            exercise_name_to_dict[exercise_name] = exercise
+            tokens = exercise_name.split()
+            for token in tokens:
+                token_to_exercise_name[token].append(exercise_name)
+                if len(token) < self.MIN_N_GRAM_SIZE:
+                    n_gram_to_tokens[token].add(token)
+                for string_size in xrange(self.MIN_N_GRAM_SIZE, len(token) + 1):
+                    n_gram = token[:string_size]
+                    n_gram_to_tokens[n_gram].add(token)
+
+        self._cls_cache["token_to_exercise_name"] = token_to_exercise_name
+        self._cls_cache["n_gram_to_tokens"] = n_gram_to_tokens
+        self._cls_cache["exercise_name_to_dict"] = exercise_name_to_dict
 
 
 class SpellChecker(Tokenizer):
 
-    def words(text):
+    def words(self, text):
         return re.findall('[a-z]+', text.lower())
 
-    def train(features):
+    def train(self, features):
         model = defaultdict(int)
         for f in features:
             model[f] += 1
         return model
-    exercises = ExerciseCacher().exercises
-    NWORDS = train(
-        words(
-            " ".join(
-                [dict_obj["name"] for dict_obj in exercises]
+
+    @property
+    def NWORDS(self):
+        key = "NWORDS"
+        if key in self._cls_cache:
+            return self._cls_cache[key]
+        else:
+            exercises = ExerciseCacher().exercises
+            self._cls_cache[key] = self.train(
+                self.words(
+                    " ".join(
+                        [dict_obj["name"] for dict_obj in exercises]
+                    )
+                )
             )
-        )
-    )
+        return self._cls_cache[key]
 
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
@@ -75,9 +121,8 @@ class SpellChecker(Tokenizer):
 
 class AutoCompleter(Tokenizer):
 
-    @classmethod
-    def get_exercise_dict_from_name(cls, exercise_name):
-        return cls.exercise_name_to_dict.get(exercise_name, {})
+    def get_exercise_dict_from_name(self, exercise_name):
+        return self.exercise_name_to_dict.get(exercise_name, {})
 
     def _get_real_tokens_from_possible_n_grams(self, tokens):
         real_tokens = []

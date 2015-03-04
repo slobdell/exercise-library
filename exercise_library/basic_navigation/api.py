@@ -40,5 +40,5 @@ def save_exercise(request, post_data=None):
 
 def exercise_from_name(request):
     exercise_name = request.GET.get('exercise', '')
-    exercise_dict = AutoCompleter.get_exercise_dict_from_name(exercise_name)
+    exercise_dict = AutoCompleter().get_exercise_dict_from_name(exercise_name)
     return render_to_json(exercise_dict)

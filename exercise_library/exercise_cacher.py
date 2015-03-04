@@ -1,6 +1,7 @@
 
 from django.conf import settings
 from exercise_library.cloud_search.cloud_search_searcher import CloudSearchSearcher
+from exercise_library.utils import make_ints
 
 
 class ExerciseCacher(object):
@@ -18,29 +19,29 @@ class ExerciseCacher(object):
 
     @classmethod
     def bust_cache(cls):
+        '''
+        Note that simply busting the cache won't work.  Operations on AWS Cloudsearch aren't atomic, so there's a delay between saving and fetching
+        '''
         if 'exercises' in cls._cls_cache:
             del cls._cls_cache["exercises"]
+
+    @classmethod
+    def update_cache_with_exercise(cls, exercise_json):
+        if 'exercises' not in cls._cls_cache:
+            return
+        all_exercises = cls._cls_cache['exercises']
+        for index in xrange(len(all_exercises)):
+            if all_exercises[index]["id"] == exercise_json["id"]:
+                all_exercises[index] = exercise_json
+                return
+        all_exercises.append(exercise_json)
 
     def _fetch_exercises(self):
         query_string = "(not video_id: 'thiswillneverhappen')"
         exercise_json = self._cloud_search_searcher.execute_query_string(query_string)
-        self._make_ints(exercise_json)
+        make_ints(exercise_json)
         self._default_keys(exercise_json)
         return exercise_json
-
-    def _make_ints(self, json_item):
-        if isinstance(json_item, list):
-            for index in xrange(len(json_item)):
-                try:
-                    json_item[index] = int(json_item[index])
-                except (TypeError, ValueError):
-                    self._make_ints(json_item[index])
-        if isinstance(json_item, dict):
-            for key in json_item.keys():
-                try:
-                    json_item[key] = int(json_item[key])
-                except:
-                    self._make_ints(json_item[key])
 
     def _default_keys(self, json_list):
         list_keys = set()

@@ -90,6 +90,51 @@ class Exercise(object):
         _exercise_id_to_mutually_exclusive_set[e.id].add(e.id)
 
     @classmethod
+    def rebuild(cls):
+        '''
+        This is absolutely sloppy copy and paste, but I don't want to have divergent copies of this file between
+        multiple apps.  This is for cache busting.
+        '''
+        cls._exercises = [cls._Exercise(dict_obj) for dict_obj in ExerciseCacher().exercises]
+
+        cls._exercises_by_workout_component = defaultdict(set)
+        cls._exercises_by_muscle_group = defaultdict(set)
+        cls._exercises_by_fitness_level = defaultdict(set)
+        cls._exercises_by_experience = defaultdict(set)
+        cls._exercises_by_required_equipment = defaultdict(set)
+        cls._exercises_by_type = defaultdict(set)
+        cls._exercises_by_phase = defaultdict(set)
+
+        cls._exercises_by_canonical_name = {}
+        cls._exercises_by_id = {}
+
+        cls._exercise_id_to_mutually_exclusive_set = {e.id: set() for e in cls._exercises}
+
+        for e in cls._exercises:
+            cls._exercises_by_workout_component[e.workout_component_id].add(e)
+            cls._exercises_by_muscle_group[e.muscle_group_id].add(e)
+            cls._exercises_by_fitness_level[e.min_fitness_level_id].add(e)
+            cls._exercises_by_experience[e.min_experience_id].add(e)
+            cls._exercises_by_id[e.id] = e
+            cls._exercises_by_canonical_name[e.canonical_name] = e
+
+            required_equipment_key = tuple(sorted(e.equipment_ids))
+            cls._exercises_by_required_equipment[required_equipment_key].add(e)
+
+            for exercise_type_id in e.exercise_type_ids:
+                cls._exercises_by_type[exercise_type_id].add(e)
+
+            for phase_id in e.phase_ids:
+                cls._exercises_by_phase[phase_id].add(e)
+
+        for e in sorted(cls._exercises, key=lambda e: e.mutually_exclusive):
+            if e.mutually_exclusive:
+                cls._exercise_id_to_mutually_exclusive_set[e.id] = cls._exercise_id_to_mutually_exclusive_set[e.mutually_exclusive]
+
+        for e in cls._exercises:
+            cls._exercise_id_to_mutually_exclusive_set[e.id].add(e.id)
+
+    @classmethod
     def get_by_id(cls, id):
         return cls._exercises_by_id[id]
 

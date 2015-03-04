@@ -80,21 +80,23 @@ var AdminEditView = Backbone.View.extend({
             workout_component_id: parseInt(this.$(".workout-component-value").val(), 10),
             mutually_exclusive: mutuallyExclusiveId,
             muscle_group_id: parseInt(this.$("input[name='primary-muscle']:checked")[0].id.split("muscle-")[1], 10),
-            secondary_muscle_group_id: this._getSecondaryMuscles(),
+            muscle_group_ids: this._getSecondaryMuscles(),
         };
         this._post(postData);
     },
     _post: function(postData){
         $.ajax({
             url: '/api/save/',
-            data: postData,
+            data: JSON.stringify(postData),
             cache: false,
             dataType: 'json',
             traditional: true,
             type: 'POST',
-            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            // contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            contentType: "application/json; charset=utf-8",
             success: function(response){
                 alert("success");
+                // TODO: need to go ahead and reload the page to the same exercise using a backbone router
             },
             error: function(data){
                 alert("error");
@@ -132,6 +134,14 @@ var AdminEditView = Backbone.View.extend({
             items: 10,
             minLength: 1
         });
+    },
+    destroyView: function() {
+        // COMPLETELY UNBIND THE VIEW
+        this.undelegateEvents();
+        this.$el.removeData().unbind();
+        // Remove view from DOM
+        this.remove();
+        Backbone.View.prototype.remove.call(this);
     },
     render: function(){
         this._getOrCreateEl();

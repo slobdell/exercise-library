@@ -27,8 +27,11 @@ var ExerciseView = Backbone.View.extend({
         this.exerciseModel = null;
     },
     launchEdit: function(){
-        var adminEditView = new AdminEditView(this.exerciseModel);
-        adminEditView.render();
+        if(this.adminEditView){
+            this.adminEditView.destroyView();
+        }
+        this.adminEditView = new AdminEditView(this.exerciseModel);
+        this.adminEditView.render();
     },
     setExercise: function(exerciseModel){
         this.exerciseModel = exerciseModel;
