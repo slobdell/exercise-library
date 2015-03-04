@@ -95,7 +95,7 @@ var AdminEditView = Backbone.View.extend({
             // contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             contentType: "application/json; charset=utf-8",
             success: function(response){
-                alert("success");
+                window.location.reload();
                 // TODO: need to go ahead and reload the page to the same exercise using a backbone router
             },
             error: function(data){
