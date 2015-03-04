@@ -161,7 +161,7 @@
                         </div>
                         <div class="col-md-6">
                             <% for(var i=0; i<phases.length; i++) { %>
-                                <input type="checkbox" id="phase-<%= phases[i].id %>"
+                                <input type="checkbox" class="phase-checks" id="phase-<%= phases[i].id %>"
                                     <% for(var j=0; j<exercise.phase_ids.length; j++) { %>
                                         <% if(exercise.phase_ids[j] === phases[i].id) { %>
                                             CHECKED
@@ -179,7 +179,7 @@
                             Workout Component
                         </div>
                         <div class="col-md-6">
-                            <select>
+                            <select class="workout-component-value">
                                 <% for(var i=0; i<workoutComponents.length; i++) { %>
                                     <option value="<%= workoutComponents[i].id %>"
                                         <% if(exercise.workout_component_id === workoutComponents[i].id) { %>
@@ -198,6 +198,27 @@
                             <input type="text" class="typeahead" placeholder="type an exercise name" style="width: 90%; margin: 5px; padding: 5px;" value="<%= mutexName %>"/>
                         </div>
                     </div>
+<div class="row">
+    <div class="col-md-4">
+        Required Equipment
+    </div>
+    <div class="col-md-8">
+        <% for(var i=0; i<equipment.length; i++) { %>
+            <div class="col-md-6">
+                <input type="checkbox" class="equipment-type-checks" id="equipment-<%= equipment[i].id %>"
+                <% for(var j=0; j<exercise.equipment_ids.length; j++) { %>
+                    <% if(exercise.equipment_ids[j] === equipment[i].id) { %>
+                        checked="checked"
+                    <% } %>
+                <% } %>
+                >
+                <label for="equipment-<%= equipment[i].id %>">
+                    <%= equipment[i].title %>
+                </label>
+            </div>
+        <% } %>
+    </div>
+</div>
                     <div class="row">
                         <div class="col-md-4">
                             Primary Muscle Group
@@ -225,7 +246,7 @@
                         <div class="col-md-8">
                             <% for(var i=0; i<muscleGroups.length; i++) { %>
                             <div class="col-md-6">
-                                <input type="checkbox" id="secondary-muscle-<%= muscleGroups[i].id %>"
+                                <input type="checkbox" class="muscle-checks" id="secondary-muscle-<%= muscleGroups[i].id %>"
                                 <% for (var j=0; j<exercise.muscle_group_ids.length; j++) { %>
                                     <% if(exercise.muscle_group_ids[j] === muscleGroups[i].id) { %>
                                         CHECKED

@@ -16,8 +16,10 @@ class ExerciseCacher(object):
             self._cls_cache["exercises"] = self._fetch_exercises()
             return self._cls_cache["exercises"]
 
-    def bust_cache(self):
-        del self._cls_cache["exercises"]
+    @classmethod
+    def bust_cache(cls):
+        if 'exercises' in cls._cls_cache:
+            del cls._cls_cache["exercises"]
 
     def _fetch_exercises(self):
         query_string = "(not video_id: 'thiswillneverhappen')"

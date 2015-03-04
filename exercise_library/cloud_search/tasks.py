@@ -18,6 +18,13 @@ def upload_exercises_to_amazon():
             indexer.add_document(exercise_doc)
 
 
+def save_exercise_to_amazon(exercise_json):
+    with CloudSearchIndexer.for_domain_index(settings.AWS_CLOUDSEARCH_INDEX) as indexer:
+        exercise_doc = ExerciseDocument(exercise_json)
+        indexer.add_document(exercise_doc)
+    ExerciseCacher.bust_cache()
+
+
 def dump_from_amazon():
     json_list = ExerciseCacher().exercises
     now = datetime.datetime.utcnow()
