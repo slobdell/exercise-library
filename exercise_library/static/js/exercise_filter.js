@@ -1,3 +1,13 @@
+(function($) {
+    $.fn.goTo = function() {
+        $('html, body').animate({
+            scrollTop: $(this).offset().top + 'px'
+        }, 'fast');
+        return this; // for chaining...
+    }
+})(jQuery);
+
+
 var Exercise = Backbone.Model.extend({
 });
 
@@ -268,5 +278,6 @@ var ExerciseRouter = Backbone.Router.extend({
         var currentSelected = $(".selected")[0].id;
         $("#muscle_" + muscleId).click();
         $("#exercise_" + exerciseId).click();
+        $(".exercise-types").goTo();
     }
 });
