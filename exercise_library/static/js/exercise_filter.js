@@ -192,6 +192,7 @@ var SearchView = Backbone.View.extend({
     },
     initialize: function(el){
         this.$el = el;
+        this.delegateTypeAhead();
     },
     search: function(){
         var searchText = this.$(".search-input").val();
@@ -205,6 +206,23 @@ var SearchView = Backbone.View.extend({
             } else {
                 window.location.href = "/#" + url;
             }
+        });
+    },
+    delegateTypeAhead: function(){
+        this.$(".typeahead").typeahead({
+            source: _.debounce(function(query, process){
+    var url = "/api/autocomplete/?q=" + query.toLowerCase();
+                return $.get(url, function(data){
+                    // data is the raw response from the API
+                    return process(data);
+                });
+            }, 100),
+            matcher: function(item){
+                // needed in order to allow typos
+                return true;
+            },
+            items: 10,
+            minLength: 1
         });
     }
 });

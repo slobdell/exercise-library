@@ -33,26 +33,6 @@
 <script type="text/javascript" src="{% static 'js/template.js' %}"></script>
 
 <script type="text/javascript" src="{% static 'js/bootstrap-typeahead.js' %}"></script>
-<!-- SBL this should go to the search file -->
-<script>
-$(document).ready(function(){
-    $(".typeahead").typeahead({
-        source: _.debounce(function(query, process){
-var url = "/api/autocomplete/?q=" + query.toLowerCase();
-            return $.get(url, function(data){
-                // data is the raw response from the API
-                return process(data);
-            });
-        }, 100),
-        matcher: function(item){
-            // needed in order to allow typos
-            return true;
-        },
-        items: 10,
-        minLength: 1
-    });
-});
-</script>
 {% if admin %}
     <script type="text/javascript" src="{% static 'js/admin_edit.js' %}"></script>
 {% endif %}V
