@@ -47,3 +47,11 @@
     </div>
 </div>
 {% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        mixpanel.track("HTML Page Navigation");
+    });
+</script>
+{% endblock %}

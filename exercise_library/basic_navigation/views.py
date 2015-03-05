@@ -2,7 +2,7 @@
 import json
 # import os
 
-# from django.conf import settings
+from django.conf import settings
 from django.http import HttpResponse
 # from django.http import HttpResponseRedirect
 # from django.http import HttpResponsePermanentRedirect
@@ -40,6 +40,7 @@ def global_render_to_response(template, render_data):
                 muscle_name = MuscleGroup.get_name_for_id(muscle_id_list[index])
                 canonical_name = muscle_name.lower().replace(" ", "-")
                 muscle_id_list[index] = (muscle_name, canonical_name)
+    render_data["mixpanel_token"] = settings.MIXPANEL_TOKEN
     render_data["muscle_tree"] = muscle_tree
     if "JSContext" not in render_data:
         render_data["JSContext"] = "{}"

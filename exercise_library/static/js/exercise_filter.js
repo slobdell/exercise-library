@@ -103,6 +103,7 @@ var ExerciseListView = Backbone.View.extend({
         var elId = evt.target.id;
         this.$("#" + elId).addClass("selected");
         var exerciseId = parseInt(elId.split("_")[1], 10);
+        mixpanel.track("Exercise Clicked", {exerciseId: exerciseId});
         var self = this;
 
         for(var i=0; i<this.filteredCollection.length; i++){
@@ -297,5 +298,6 @@ var ExerciseRouter = Backbone.Router.extend({
         $("#muscle_" + muscleId).click();
         $("#exercise_" + exerciseId).click();
         $(".exercise-types").goTo();
+        mixpanel.track("Exercise Searched", {exerciseId: exerciseId});
     }
 });
