@@ -41,6 +41,8 @@ def global_render_to_response(template, render_data):
                 canonical_name = muscle_name.lower().replace(" ", "-")
                 muscle_id_list[index] = (muscle_name, canonical_name)
     render_data["muscle_tree"] = muscle_tree
+    if "JSContext" not in render_data:
+        render_data["JSContext"] = "{}"
     return render_to_response(template, render_data)
 
 

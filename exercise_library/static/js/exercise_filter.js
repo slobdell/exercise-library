@@ -189,8 +189,12 @@ var SearchView = Backbone.View.extend({
         $.get("/api/exercise/?exercise=" + searchText, function(exerciseResponse){
             var muscleId = exerciseResponse.muscle_group_id;
             var exerciseId = exerciseResponse.id;
-            $("#muscle_" + muscleId).click();
-            $("#exercise_" + exerciseId).click();
+            var url = "exercise/" + muscleId + "/" + exerciseId;
+            if(window.location.pathname === "/"){
+                Backbone.history.navigate(url, {trigger: true});
+            } else {
+                window.location.href = "/#" + url;
+            }
         });
     }
 });
@@ -250,5 +254,19 @@ var ExerciseFilterView = Backbone.View.extend({
 
         this.updateFilterFromView();
         return this;
+    }
+});
+
+
+var ExerciseRouter = Backbone.Router.extend({
+    routes: {
+        "exercise/:muscleId/:exerciseId": "exercise"
+    },
+    initialize: function(){
+    },
+    exercise: function(muscleId, exerciseId){
+        var currentSelected = $(".selected")[0].id;
+        $("#muscle_" + muscleId).click();
+        $("#exercise_" + exerciseId).click();
     }
 });

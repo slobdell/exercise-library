@@ -56,3 +56,12 @@ var url = "/api/autocomplete/?q=" + query.toLowerCase();
 {% if admin %}
     <script type="text/javascript" src="{% static 'js/admin_edit.js' %}"></script>
 {% endif %}V
+<script type="text/javascript" src="{% static 'js/exercise_filter.js' %}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var searchEl = $(".search-area");
+        var searchView = new SearchView(searchEl);
+        searchView.render();
+    });
+</script>

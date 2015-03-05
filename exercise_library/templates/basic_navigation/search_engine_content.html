@@ -2,7 +2,6 @@
 {% load staticfiles %}
 
 {% block javascript %}
-    <script type="text/javascript" src="{% static 'js/exercise_filter.js' %}"></script>
     <script type="text/javascript">
     $(document).ready(function(){
         var exerciseCollection = new ExerciseCollection(JSContext.exercises);
@@ -10,9 +9,8 @@
         var exerciseView = new ExerciseFilterView(el, exerciseCollection);
         exerciseView.render();
 
-        var searchEl = $(".search-area");
-        var searchView = new SearchView(searchEl);
-        searchView.render();
+        var router = new ExerciseRouter();
+        Backbone.history.start();
     });
     </script>
 {% endblock %}

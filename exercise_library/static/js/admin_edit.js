@@ -85,6 +85,8 @@ var AdminEditView = Backbone.View.extend({
         this._post(postData);
     },
     _post: function(postData){
+        var self = this;
+        this.$("button").hide();
         $.ajax({
             url: '/api/save/',
             data: JSON.stringify(postData),
@@ -95,8 +97,10 @@ var AdminEditView = Backbone.View.extend({
             // contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             contentType: "application/json; charset=utf-8",
             success: function(response){
+                var muscleId = self.exerciseModel.get("muscle_group_id");
+                var exerciseId = self.exerciseModel.get("id");
+                window.location.href = "#exercise/" + muscleId + "/" + exerciseId;
                 window.location.reload();
-                // TODO: need to go ahead and reload the page to the same exercise using a backbone router
             },
             error: function(data){
                 alert("error");
