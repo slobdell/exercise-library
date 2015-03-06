@@ -189,11 +189,17 @@ var ExerciseListView = Backbone.View.extend({
 
 var SearchView = Backbone.View.extend({
     events: {
+        "keyup .search-input": "handleKeyPress",
         "click .search-button": "search"
     },
     initialize: function(el){
         this.$el = el;
         this.delegateTypeAhead();
+    },
+    handleKeyPress: function(evt){
+        if(evt.keyCode === 13){
+            this.$(".search-button").click();
+        }
     },
     search: function(){
         var searchText = this.$(".search-input").val();
