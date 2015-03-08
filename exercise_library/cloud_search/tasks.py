@@ -44,9 +44,13 @@ def save_exercise_to_amazon(exercise_json):
         exercise_doc = ExerciseDocument(exercise_json)
         indexer.add_document(exercise_doc)
 
+    print "Finished adding document to AWS"
     ExerciseCacher.update_cache_with_exercise(exercise_json)
+    print "Finished updating Exercise cache"
     Tokenizer.bust_cache()
+    print "Finished busting Tokenizer cache"
     Exercise.rebuild()
+    print "Finished rebuilding Exercise Filter"
 
 
 def dump_from_amazon():
