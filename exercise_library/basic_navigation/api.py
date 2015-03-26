@@ -3,6 +3,7 @@ import json
 from django.http import Http404
 from django.http import HttpResponse
 from exercise_library.auto_corrector import SpellChecker, AutoCompleter
+from exercise_library.exercise_cacher import ExerciseCacher
 from exercise_library.cloud_search.tasks import save_exercise_to_amazon
 
 
@@ -19,6 +20,10 @@ def requires_post(fn):
         kwargs["post_data"] = post_data
         return fn(request, *args, **kwargs)
     return inner
+
+
+def get_exercises(request):
+    return render_to_json(ExerciseCacher().exercises)
 
 
 def autocomplete(request):
