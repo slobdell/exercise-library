@@ -17,7 +17,7 @@ from exercise_library.constants import WorkoutComponent
 
 
 def render_to_json(data, status=200):
-    return HttpResponse(json.dumps(data), content_type="application/json", status=status)
+    return HttpResponse(json.dumps(data), content_type="application/json", status=status, mimetype='application/json')
 
 
 def _get_grouped_exercises():
