@@ -56,7 +56,20 @@ def get_exercises(request):
     })
 
 
+def verbose_autocomplete(request):
+    spellchecker = SpellChecker()
+    search_term_so_far = request.GET.get('q', '')
+
+    tokens = spellchecker.correct_phrase(search_term_so_far)
+    suggestions = AutoCompleter().guess_exercises(tokens)
+
+    autocompleter = AutoCompleter()
+    exercise_dict_list = [autocompleter.get_exercise_dict_from_name(exercise_name) for exercise_name in suggestions]
+    return render_to_json(exercise_dict_list)
+
+
 def autocomplete(request):
+    # refactor this, a little bit non sober right now
     spellchecker = SpellChecker()
     search_term_so_far = request.GET.get('q', '')
 
