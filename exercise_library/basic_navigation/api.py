@@ -65,7 +65,8 @@ def verbose_autocomplete(request):
 
     autocompleter = AutoCompleter()
     exercise_dict_list = [autocompleter.get_exercise_dict_from_name(exercise_name) for exercise_name in suggestions]
-    return render_to_json(exercise_dict_list)
+    MAX_RESULTS = 10
+    return render_to_json(exercise_dict_list[:MAX_RESULTS])
 
 
 def autocomplete(request):
