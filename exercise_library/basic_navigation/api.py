@@ -4,13 +4,16 @@ from django.http import Http404
 from django.http import HttpResponse
 from exercise_library.auto_corrector import SpellChecker, AutoCompleter
 from exercise_library.exercise_cacher import ExerciseCacher
-from exercise_library.cloud_search.tasks import save_exercise_to_amazon
+# from exercise_library.cloud_search.tasks import save_exercise_to_amazon
 
+from exercise_library.auto_corrector import Tokenizer
+from exercise_library.constants import Exercise
 from exercise_library.constants import Equipment
 from exercise_library.constants import ExerciseType
 from exercise_library.constants import MuscleGroup
 from exercise_library.constants import Phase
 from exercise_library.constants import WorkoutComponent
+from exercise_library.dynamo.dynamo_client import DynamoClient
 
 
 def render_to_json(response_obj, context={}, content_type="application/json", status=200):
@@ -83,7 +86,12 @@ def autocomplete(request):
 @requires_post
 def save_exercise(request, post_data=None):
     post_data = post_data or {}
-    save_exercise_to_amazon(post_data)
+    # save_exercise_to_amazon(post_data)
+    ExerciseCacher.update_cache_with_exercise(post_data)
+    Tokenizer.bust_cache()
+    Exercise.rebuild()
+    updated_exercises = ExerciseCacher().exercises
+    DynamoClient().save_exercises(updated_exercises)
     return render_to_json({}, status=204)
 
 

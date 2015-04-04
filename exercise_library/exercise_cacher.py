@@ -1,13 +1,14 @@
 
-from django.conf import settings
-from exercise_library.cloud_search.cloud_search_searcher import CloudSearchSearcher
-from exercise_library.utils import make_ints
+# from django.conf import settings
+# from exercise_library.cloud_search.cloud_search_searcher import CloudSearchSearcher
+# from exercise_library.utils import make_ints
+from exercise_library.dynamo.dynamo_client import DynamoClient
 
 
 class ExerciseCacher(object):
 
     _cls_cache = {}
-    _cloud_search_searcher = CloudSearchSearcher(settings.AWS_CLOUDSEARCH_INDEX)
+    # _cloud_search_searcher = CloudSearchSearcher(settings.AWS_CLOUDSEARCH_INDEX)
 
     @property
     def exercises(self):
@@ -37,10 +38,11 @@ class ExerciseCacher(object):
         all_exercises.append(exercise_json)
 
     def _fetch_exercises(self):
-        query_string = "(not video_id: 'thiswillneverhappen')"
-        exercise_json = self._cloud_search_searcher.execute_query_string(query_string)
-        make_ints(exercise_json)
-        self._default_keys(exercise_json)
+        # query_string = "(not video_id: 'thiswillneverhappen')"
+        # exercise_json = self._cloud_search_searcher.execute_query_string(query_string)
+        # make_ints(exercise_json)
+        # self._default_keys(exercise_json)
+        exercise_json = DynamoClient().get_exercises()
         return exercise_json
 
     def _default_keys(self, json_list):
