@@ -19,6 +19,25 @@
 <div class="section gray-bg text-muted footer-top clearfix">
     <div class="container replace-area">
         <div class="row">
+            <div class="col-md-6">
+                <div class="box-style-2 white-bg object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="200" style="padding: 10px;">
+                <p>
+                    Get the Exercise Library on the App Store!  It's the same data but a much more convenient experience for use at the gym!
+                </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="box-style-2 white-bg object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="200" style="padding: 10px;">
+                <a href="https://itunes.apple.com/us/app/exercise-library/id982327127">
+                <img src="{% static 'images/ios_ad.png' %}" alt="Exercise Library for iPhone" style="width: 80%; margin: auto;">
+                <img src="{% static 'images/app_store.png' %}" alt="Exercise Library on the App Store" style="width: 80%; margin: auto;">
+                </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
         {% for muscle_name, exercise_list in grouped_exercises.items %}
             <div class="col-md-4">
             <div class="box-style-2 white-bg object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="200" style="padding: 10px;">
