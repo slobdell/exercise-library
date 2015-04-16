@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 <script type="text/html" id="exercise-filter-view">
 <!-- Tabs start -->
 <!-- ================ -->
@@ -92,6 +94,10 @@
     <div class="col-md-5" style="border-left: 1px solid #999999;">
         <div class="exercise-placeholder">
         </div>
+        <a href="https://itunes.apple.com/us/app/exercise-library/id982327127">
+        <img src="{% static 'images/ios_ad.png' %}" alt="Exercise Library for iPhone" style="width: 80%; margin: auto;">
+        <img src="{% static 'images/app_store.png' %}" alt="Exercise Library on the App Store" style="width: 80%; margin: auto;">
+        </a>
     </div>
 </div>
 
@@ -109,6 +115,8 @@
         <a href="javascript:void(0);" class="btn btn-default admin-edit">Edit</a>
     </center>
 {% endif %}
+
+
 
 <%= exercise.html_description %>
 </script>

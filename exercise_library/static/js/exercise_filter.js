@@ -127,6 +127,9 @@ var ExerciseListView = Backbone.View.extend({
         }
         filteredCollection = filteredCollection.filter(function(model){
             var requiredEquipment = model.get("equipment_ids");
+            if(requiredEquipment.length === 0){
+                // bodyweight exercise, specail case?
+            }
             for(var requiredIndex=0; requiredIndex<requiredEquipment.length; requiredIndex++){
                 var requiredEquipmentId = requiredEquipment[requiredIndex];
                 if(_.indexOf(availableEquipment, requiredEquipmentId) === -1){
