@@ -18,6 +18,19 @@
 {% block content %}
 <div class="section gray-bg text-muted footer-top clearfix">
     <div class="container replace-area">
+
+        <div class="row">
+        {% for muscle_name, exercise_list in grouped_exercises.items %}
+            <div class="col-md-4">
+            <div class="box-style-2 white-bg object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="200" style="padding: 10px;">
+                <h3>{{ muscle_name }}</h3>
+                {% for exercise in exercise_list %}
+                    <a href="/exercise/{{ exercise.canonical_name}}/">{{ exercise.name }}</a><br/>
+                {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        </div> <!-- row -->
         <div class="row">
             <div class="col-md-6">
                 <div class="box-style-2 white-bg object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="200" style="padding: 10px;">
@@ -36,19 +49,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="row">
-        {% for muscle_name, exercise_list in grouped_exercises.items %}
-            <div class="col-md-4">
-            <div class="box-style-2 white-bg object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="200" style="padding: 10px;">
-                <h3>{{ muscle_name }}</h3>
-                {% for exercise in exercise_list %}
-                    <a href="/exercise/{{ exercise.canonical_name}}/">{{ exercise.name }}</a><br/>
-                {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
-        </div> <!-- row -->
     </div> <!-- container -->
 </div> <!-- section -->
 {% endblock %}
